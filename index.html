@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Buy now, pay later</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <style>
+    :root {
+      /* Violet/Purple color scheme */
+      --main: #7C3AED;      /* Main violet color */
+      --main2: #A78BFA;     /* Lighter violet accent */
+      --main3: #EDE9FE;     /* Very light violet for backgrounds */
+      --btn: linear-gradient(90deg, #7C3AED 60%, #A78BFA 100%);
+      --btn2: linear-gradient(90deg, #6D28D9 70%, #9D5DFF 100%);
+      --shadow: 0 8px 32px 0 rgba(124, 58, 237, 0.17);
+      --main-bg: linear-gradient(120deg, #F5F3FF 65%, #EDE9FE 100%);
+      --accent-bg: linear-gradient(180deg, #F5F3FF 40%, #E9D5FF 100%);
+      --block: #FAFAFE;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: 'Inter', Arial, sans-serif;
+      background: var(--main-bg);
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+    .main-card {
+      margin-top: 36px;
+      background: var(--accent-bg);
+      border-radius: 34px;
+      box-shadow: var(--shadow), 0 40px 90px 0 #d1c4e91e;
+      width: 97vw;
+      max-width: 480px;
+      padding: 36px 6vw 30px 6vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8em;
+      min-height: 570px;
+      position: relative;
+      transition: box-shadow .18s;
+    }
+    .title {
+      font-size: 2.17rem;
+      font-weight: 800;
+      background: var(--btn2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.4px;
+      margin-bottom: 1.2em;
+      text-align: center;
+      filter: drop-shadow(0 4px 24px #a78bfa24);
+    }
+    .phone-visual {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 0.7em;
+      min-height: 250px;
+      width: 100%;
+      justify-content: flex-end;
+      position: relative;
+      z-index: 2;
+    }
+    .phone-img {
+      width: 160px;
+      height: 250px;
+      object-fit: contain;
+      margin: 0 auto 0 auto;
+      display: block;
+      z-index: 2;
+      background: transparent;
+      border-radius: 25px;
+      box-shadow: 0 8px 34px #7c3aed28, 0 1.5px 5px #c4b5fd4d;
+      position: relative;
+      filter: drop-shadow(0 0 8px #e9d5ff);
+      transition: box-shadow 0.18s, filter 0.13s;
+      user-select: none;
+      pointer-events: none;
+      background-color: transparent;
+    }
+    .phone-name {
+      font-size: 1.23rem;
+      color: var(--main);
+      margin-top: 1em;
+      margin-bottom: 0.7em;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 0.01em;
+      background: linear-gradient(90deg, #7C3AED 40%, #A78BFA 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .slider-amount-wrap {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      margin-bottom: 1.1em;
+      margin-top: 0.2em;
+    }
+    .slider-value {
+      display: flex;
+      justify-content: center;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--main);
+      margin-bottom: 10px;
+      letter-spacing: 0.6px;
+      filter: drop-shadow(0 2px 10px #a78bfa2a);
+    }
+    .range-slider {
+      width: 100%;
+      -webkit-appearance: none;
+      height: 12px;
+      background: linear-gradient(90deg, #f5f3ff 0%, #ede9fe 100%);
+      border-radius: 10px;
+      outline: none;
+      margin-bottom: 8px;
+      box-shadow: 0 1.5px 10px #7c3aed13;
+    }
+    .range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 38px;
+      height: 38px;
+      background: var(--btn);
+      border-radius: 50%;
+      box-shadow: 0 5px 18px #7c3aed30;
+      cursor: pointer;
+      border: 6px solid var(--block);
+      transition: background 0.18s;
+    }
+    .range-slider:active::-webkit-slider-thumb {
+      background: var(--btn2);
+    }
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.17em;
+      color: #94a3b8; /* Muted gray for labels */
+      margin-top: 2px;
+      width: 100%;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      filter: drop-shadow(0 1px 8px #c4b5fd4d);
+    }
+    .label {
+      color: #5b21b6; /* Darker purple */
+      font-size: 1.18em;
+      font-weight: 700;
+      margin-bottom: 7px;
+      margin-top: 0.5em;
+      text-align: center;
+      letter-spacing: 0.09em;
+      text-shadow: 0 1px 6px #c4b5fd17;
+    }
+    .installments-row {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin: 12px 0 28px 0;
+      width: 100%;
+    }
+    .inst-btn {
+      padding: 15px 32px;
+      font-size: 1.13em;
+      font-weight: 700;
+      background: #F5F3FF;
+      color: var(--main);
+      border: none;
+      border-radius: 19px;
+      box-shadow: 0 2px 15px #7c3aed0d;
+      transition: background 0.19s, color 0.19s, box-shadow 0.17s;
+      cursor: pointer;
+      outline: none;
+      letter-spacing: 0.07em;
+      border: 2px solid transparent;
+      position: relative;
+    }
+    .inst-btn.selected {
+      background: var(--btn2);
+      color: #fff;
+      box-shadow: 0 5px 30px #a78bfa26;
+      border: 2px solid #7c3aed55;
+      transform: scale(1.07);
+      filter: brightness(1.09);
+    }
+    .inst-btn .inst-unit {
+      font-weight: 400;
+      font-size: 0.96em;
+      margin-left: 4px;
+      color: #E9D5FF;
+      letter-spacing: 0;
+    }
+    .confirm-btn {
+      width: 100%;
+      margin-top: 14px;
+      padding: 20px 0;
+      background: var(--btn);
+      color: #fff;
+      font-size: 1.31em;
+      font-weight: 800;
+      letter-spacing: 1.3px;
+      border: none;
+      border-radius: 22px;
+      cursor: pointer;
+      box-shadow: 0 8px 32px #7c3aed18;
+      transition: background 0.15s, transform 0.09s, box-shadow 0.15s;
+      outline: none;
+      text-shadow: 0 1px 8px #7c3aed13;
+    }
+    .confirm-btn:active {
+      background: var(--main);
+      transform: scale(0.98);
+    }
+    /* Modal overlay for iPhone options */
+    .modal-overlay {
+      position: fixed;
+      z-index: 9999;
+      inset: 0;
+      background: rgba(124, 58, 237, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadein 0.23s;
+    }
+    @keyframes fadein {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .modal-select {
+      background: var(--accent-bg);
+      border-radius: 34px;
+      padding: 38px 22px 28px 22px;
+      box-shadow: 0 16px 50px #7c3aed18, 0 0 120px 12px #ede9fe6a inset;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: popcheck 0.34s cubic-bezier(.4,2.1,.7,.9);
+      min-width: 270px;
+      width: 92vw;
+      max-width: 410px;
+      position: relative;
+    }
+    @keyframes popcheck {
+      0% { transform: scale(0.8);}
+      80% { transform: scale(1.07);}
+      100% { transform: scale(1);}
+    }
+    .modal-phone-img {
+      width: 160px;
+      height: 250px;
+      object-fit: contain;
+      background: transparent;
+      border-radius: 28px;
+      margin: 0 auto 16px auto;
+      display: block;
+      box-shadow: 0 8px 30px #7c3aed22, 0 1.5px 5px #c4b5fd4d;
+      filter: drop-shadow(0 0 12px #d8b4fe);
+    }
+    .modal-phone-name {
+      font-size: 1.18rem;
+      color: var(--main);
+      font-weight: 700;
+      margin-bottom: 1.1em;
+      text-align: center;
+      letter-spacing: 0.06em;
+    }
+    .option-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 22px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    .option-btn {
+      padding: 12px 24px;
+      font-size: 1.09em;
+      font-weight: 700;
+      background: #F5F3FF;
+      color: var(--main);
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 2px 14px #7c3aed0a;
+      transition: background 0.14s, color 0.14s, box-shadow 0.14s;
+      cursor: pointer;
+      outline: none;
+      border: 2px solid transparent;
+    }
+    .option-btn.selected {
+      background: var(--btn2);
+      color: #fff;
+      border: 2px solid #7c3aed33;
+      box-shadow: 0 3px 16px #a78bfa25;
+      transform: scale(1.08);
+    }
+    .take-btn {
+      width: 100%;
+      margin-top: 17px;
+      padding: 19px 0;
+      background: var(--btn);
+      color: #fff;
+      font-size: 1.15em;
+      font-weight: 800;
+      letter-spacing: 1px;
+      border: none;
+      border-radius: 22px;
+      cursor: pointer;
+      box-shadow: 0 8px 32px #7c3aed18;
+      transition: background 0.15s, transform 0.09s, box-shadow 0.17s;
+      outline: none;
+      text-shadow: 0 1px 8px #7c3aed13;
+    }
+    .take-btn:active {
+      background: var(--main);
+      transform: scale(0.98);
+    }
+    /* Success modal (kept green for universal success indication) */
+    .modal-check {
+      background: #fff;
+      border-radius: 28px;
+      padding: 36px 34px 25px 34px;
+      box-shadow: 0 14px 42px #7c3aed1a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: popcheck 0.36s cubic-bezier(.4,2.1,.7,.9);
+      min-width: 210px;
+    }
+    .modal-checkmark {
+      background: linear-gradient(135deg, #34d58a 60%, #32e2ae 100%);
+      border-radius: 50%;
+      width: 66px;
+      height: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 12px #31e2ae16;
+      animation: scaleup 0.42s cubic-bezier(.39,2,.6,.95);
+    }
+    @keyframes scaleup {
+      0% { transform: scale(0.5);}
+      70% { transform: scale(1.15);}
+      100% { transform: scale(1);}
+    }
+    .modal-checkmark svg {
+      width: 38px;
+      height: 38px;
+      stroke: #fff;
+      stroke-width: 5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      margin-top: 4px;
+    }
+    .modal-success {
+      color: #27be88;
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 0.7px;
+      margin-top: 0px;
+    }
+    @media (max-width: 540px) {
+      .main-card, .modal-select {
+        max-width: 100vw;
+        padding: 7vw 2vw 8vw 2vw;
+        border-radius: 0 0 28px 28px;
+        min-height: 62vh;
+      }
+      .title { font-size: 1.18rem; margin-bottom: 0.8em; }
+      .phone-img, .modal-phone-img { width: 100px; height: 140px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-card">
+    <div class="title">Buy now, <span style="color:var(--main2)">pay later</span></div>
+    <div class="phone-visual">
+      <img id="phoneImg" class="phone-img" src="" alt="phone" draggable="false">
+    </div>
+    <div class="phone-name" id="phoneName"></div>
+    <div class="slider-amount-wrap">
+      <div class="slider-value" id="amountValue">100</div>
+      <input 
+        type="range" 
+        class="range-slider"
+        id="loanSlider"
+        min="100" max="2000" value="100" step="50"
+        aria-label="Loan Amount"
+      >
+      <div class="slider-labels">
+        <span>100</span>
+        <span>2 000</span>
+      </div>
+    </div>
+    <div class="label">Select installment period</div>
+    <div class="installments-row" id="installmentRow">
+      <button class="inst-btn selected" data-value="3">3 <span class="inst-unit">months</span></button>
+      <button class="inst-btn" data-value="6">6 <span class="inst-unit">months</span></button>
+      <button class="inst-btn" data-value="12">12 <span class="inst-unit">months</span></button>
+    </div>
+    <button class="confirm-btn" id="confirmBtn">Confirm</button>
+  </div>
+  <!-- Modal overlays -->
+  <div id="iphoneModal" class="modal-overlay" style="display:none;">
+    <div class="modal-select">
+      <img id="modalPhoneImg" class="modal-phone-img" src="" alt="iPhone">
+      <div class="modal-phone-name" id="modalPhoneName"></div>
+      <div style="font-weight:700;color:var(--main);margin-bottom:8px;">Select color:</div>
+      <div class="option-row" id="colorRow"></div>
+      <div style="font-weight:700;color:var(--main);margin-top:9px;margin-bottom:8px;">Select storage:</div>
+      <div class="option-row" id="storageRow"></div>
+      <button class="take-btn" id="takeBtn">Get on installment</button>
+    </div>
+  </div>
+  <div id="modalOverlay" class="modal-overlay" style="display:none;">
+    <div class="modal-check">
+      <div class="modal-checkmark">
+        <svg viewBox="0 0 52 52">
+          <polyline points="14,28 24,38 38,16"></polyline>
+        </svg>
+      </div>
+      <div class="modal-success">Order on the way!</div>
+    </div>
+  </div>
+  <script>
+    // Phones data by loan range
+    const phones = [
+      {
+        name: 'Nokia 3310',
+        img: 'https://i.postimg.cc/tgCdb0yq/png-transparent-nokia-3310-nokia-x7-00-nokia-8-nokia-7-nokia-6-nokia-3310-electronics-gadget-mobile.png',
+        min: 100,
+        max: 399
+      },
+      {
+        name: 'Classic Feature Phone',
+        img: 'https://i.postimg.cc/0yCGhkTX/432f3051-4281-4daf-81c3-ebe765fe9841-large.png',
+        min: 400,
+        max: 799
+      },
+      {
+        name: 'iPhone 4S',
+        img: 'https://i.postimg.cc/FKWysPsj/800px-IPhone4-SW-hite-no-shadow.png',
+        min: 800,
+        max: 1199
+      },
+      {
+        name: 'Samsung Galaxy S3',
+        img: 'https://i.postimg.cc/nzXvsvCN/png-transparent-samsung-galaxy-s-iii-samsung-galaxy-s3-neo-verizon-wireless-android-purple-galaxy-ga.png',
+        min: 1200,
+        max: 1599
+      },
+      {
+        name: 'iPhone 16 Pro Max',
+        img: 'https://i.ibb.co/Vp2KFDjw/natural-titanium-1-700x700.webp',
+        min: 1600,
+        max: 2000,
+        colors: [
+          { name: 'Black' },
+          { name: 'Silver' },
+          { name: 'Blue' }
+        ],
+        storages: ['128 GB','256 GB','512 GB','1 TB']
+      }
+    ];
+
+    // Elements
+    const phoneImg = document.getElementById('phoneImg');
+    const phoneName = document.getElementById('phoneName');
+    const loanSlider = document.getElementById('loanSlider');
+    const amountValue = document.getElementById('amountValue');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const modalOverlay = document.getElementById('modalOverlay');
+
+    // For iPhone modal
+    const iphoneModal = document.getElementById('iphoneModal');
+    const modalPhoneImg = document.getElementById('modalPhoneImg');
+    const modalPhoneName = document.getElementById('modalPhoneName');
+    const colorRow = document.getElementById('colorRow');
+    const storageRow = document.getElementById('storageRow');
+    const takeBtn = document.getElementById('takeBtn');
+
+    // State
+    let selectedPhoneIdx = 0;
+    let selectedInstallment = 3;
+    let modalTimeout = null;
+
+    // Init
+    function setPhoneByLoan(loan) {
+      let idx = phones.length - 1;
+      for (let i = 0; i < phones.length; i++) {
+        if (loan >= phones[i].min && loan <= phones[i].max) {
+          idx = i; break;
+        }
+      }
+      selectedPhoneIdx = idx;
+      phoneImg.src = phones[idx].img;
+      phoneName.textContent = phones[idx].name;
+    }
+    setPhoneByLoan(loanSlider.value);
+
+    // Slider
+    loanSlider.addEventListener('input', function() {
+      const val = parseInt(this.value);
+      amountValue.textContent = val.toLocaleString();
+      setPhoneByLoan(val);
+    });
+
+    // Installment buttons
+    const instButtons = document.querySelectorAll('.inst-btn');
+    instButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        instButtons.forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedInstallment = +this.dataset.value;
+      });
+    });
+
+    // Confirm button logic
+    confirmBtn.addEventListener('click', function() {
+      // Only iPhone 16 Pro Max — open modal for options
+      if (phones[selectedPhoneIdx].name === 'iPhone 16 Pro Max') {
+        openIphoneModal();
+      } else {
+        showOrderModal();
+      }
+    });
+
+    // iPhone modal logic
+    let selectedColorIdx = 0;
+    let selectedStorageIdx = 0;
+
+    function openIphoneModal() {
+      // Render current color & storage
+      renderIphoneModalOptions();
+      iphoneModal.style.display = 'flex';
+      // Lock scroll
+      document.body.style.overflow = 'hidden';
+    }
+    function closeIphoneModal() {
+      iphoneModal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    function renderIphoneModalOptions() {
+      const p = phones[selectedPhoneIdx];
+      selectedColorIdx = 0; selectedStorageIdx = 0;
+      // Use only one image!
+      modalPhoneImg.src = p.img;
+      modalPhoneName.textContent = p.name;
+      // Colors
+      colorRow.innerHTML = '';
+      p.colors.forEach((c, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn' + (i === selectedColorIdx ? ' selected':'');
+        btn.textContent = c.name;
+        btn.onclick = () => {
+          selectedColorIdx = i;
+          colorRow.querySelectorAll('button').forEach(b=>b.classList.remove('selected'));
+          btn.classList.add('selected');
+        };
+        colorRow.appendChild(btn);
+      });
+      // Storage
+      storageRow.innerHTML = '';
+      p.storages.forEach((s, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn' + (i === selectedStorageIdx ? ' selected':'');
+        btn.textContent = s;
+        btn.onclick = () => {
+          selectedStorageIdx = i;
+          storageRow.querySelectorAll('button').forEach(b=>b.classList.remove('selected'));
+          btn.classList.add('selected');
+        };
+        storageRow.appendChild(btn);
+      });
+    }
+
+    takeBtn.onclick = function() {
+      closeIphoneModal();
+      setTimeout(() => {
+        showOrderModal();
+      }, 100);
+    };
+    // Close modal on overlay click outside modal box
+    iphoneModal.onclick = function(e) {
+      if (e.target === iphoneModal) closeIphoneModal();
+    };
+
+    // Success modal
+    function showOrderModal() {
+      modalOverlay.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      clearTimeout(modalTimeout);
+      modalTimeout = setTimeout(() => {
+        modalOverlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }, 1700);
+    }
+
+    // Prevent drag image
+    phoneImg.addEventListener('dragstart', e => e.preventDefault());
+    modalPhoneImg.addEventListener('dragstart', e => e.preventDefault());
+  </script>
+</body>
+</html>
